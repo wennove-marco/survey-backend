@@ -1,7 +1,7 @@
 package com.survey.controller;
 
-import com.survey.model.Question;
-import com.survey.repository.QuestionRepository;
+import com.survey.model.Survey_Table;
+import com.survey.repository.Survey_TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,37 +14,36 @@ import java.util.List;
 @RestController
 @RequestMapping("survey/api")
 
-public class QuestionController {
+public class Survey_TableController {
 
     @Autowired
-    QuestionRepository repository;
+    Survey_TableRepository repository;
 
-    @GetMapping("/questions")
-    public ResponseEntity<List<Question>> getAllQuestions() {
+    @GetMapping("/surveys")
+    public ResponseEntity<List<Survey_Table>> getAllSurveys() {
         try {
-            List<Question> questions = new ArrayList<Question>();
+            List<Survey_Table> surveys = new ArrayList<>();
 
-            repository.findAll().forEach(questions::add);
+            surveys.addAll(repository.findAll());
 
-            if (questions.isEmpty()) {
+            if (surveys.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-
-            return new ResponseEntity<>(questions, HttpStatus.OK);
+            return new ResponseEntity<>(surveys, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(
-            value = "/question",
+            value = "/survey",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-    public ResponseEntity<Question> createQuestion(@RequestBody Question question) {
+    public ResponseEntity<Survey_Table> createSurvey(@RequestBody Survey_Table survey) {
         try {
-            Question newQuestion = repository.save(new Question(question.getQuestion(), question.getCategoryId()));
-            return new ResponseEntity<>(newQuestion, HttpStatus.CREATED);
+            Survey_Table newSurvey = repository.save(new Survey_Table(survey.getId_mail(), survey.getId_category(), survey.getName(), survey.getDescription(), survey.getPublish_date(), survey.getEnding_date()));
+            return new ResponseEntity<>(newSurvey, HttpStatus.CREATED);
         }
         catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

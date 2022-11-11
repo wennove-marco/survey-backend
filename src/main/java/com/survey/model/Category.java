@@ -6,29 +6,27 @@ import javax.persistence.*;
 @Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
     private String name;
 
-    public Category() {
+    public Category () { }
 
-    }
-
-    public Category(String name) {
+    public Category (String name) {
         this.name = name;
     }
 
-    public long getId() {
-        return id;
+    public long getId () {
+        return this.id;
     }
 
-    public String getName() {
+    public String getName () {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName (String name) {
         this.name = name;
     }
 
@@ -36,5 +34,4 @@ public class Category {
     public String toString() {
         return "Category [id=" + id + ", name=" + name + "]";
     }
-
 }

@@ -1,10 +1,10 @@
 package com.survey.repository;
 
-import com.survey.model.Answer; 
+import com.survey.model.Question_Answer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AnswerRepository extends JpaRepository<Answer, String> {
-    Page<Answer> findAll(Pageable pageable);
+public interface Question_AnswerRepository extends JpaRepository<Question_Answer, Long> {
+    Page<Question_Answer> findAll(Pageable pageable);
 }

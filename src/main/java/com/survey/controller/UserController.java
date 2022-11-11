@@ -3,7 +3,6 @@ package com.survey.controller;
 import com.google.gson.Gson;
 import com.survey.model.User;
 import com.survey.repository.UserRepository;
-import com.survey.tool.CryptPass;
 import com.survey.tool.SortCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -64,30 +61,30 @@ public class UserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
-   public ResponseEntity<HttpStatus> checkUser(@RequestBody User user) {
+    public ResponseEntity<HttpStatus> checkUser(@RequestBody User user) {
         try {
             Optional<User> _user = repository.findByMail(user.getMail());
 
             HttpStatus status = HttpStatus.UNAUTHORIZED;
 
-            CryptPass cp = new CryptPass(user.getPass());
-
-            if (_user.isPresent() && _user.get().getPass().equals(cp.getCryptPass())) {
+            if (_user.isPresent() && _user.get().getPass().equals(user.getPass())) {
                 status = HttpStatus.OK;
             }
-            return new ResponseEntity(status);
+            return new ResponseEntity<HttpStatus>(status);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            //e.printStackTrace();
+            return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(
-        value = "/users",
-        consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
-        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+            value = "/users",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
+            System.out.println(user.toString());
             Optional<User> _user = repository.findByMail(user.getMail());
 
             if (_user.isPresent()) {
@@ -108,7 +105,7 @@ public class UserController {
             repository.deleteById(mail);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        catch(EmptyResultDataAccessException e) {
+        catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         catch (Exception e) {

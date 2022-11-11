@@ -18,22 +18,17 @@ public class Question {
     private long categoryId;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-        name               = "question_answer",
-        joinColumns        = { @JoinColumn(name = "id_question") },
-        inverseJoinColumns = { @JoinColumn(name = "id_answer")   }
-    )
+    @JoinTable(name = "question_answer",
+            joinColumns        = { @JoinColumn(name = "id_question") },
+            inverseJoinColumns = { @JoinColumn(name = "id_answer") })
     private List<Answer> answers = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_category", nullable = false, insertable = false, updatable = false)
     private Category category;
 
-    public Question() {
-
-    }
-
-    public Question(String question, long categoryId) {
+    public Question () { }
+    public Question (String question, long categoryId) {
         this.question   = question;
         this.categoryId = categoryId;
     }
