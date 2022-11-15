@@ -15,6 +15,7 @@ public class Submitted_Answer {
     @Column(name = "id_question_answer")
     private long id_question_answer;
 
+    /*
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_submitted_survey", nullable = false, insertable = false, updatable = false)
     private Submitted_Survey submitted_survey;
@@ -22,7 +23,8 @@ public class Submitted_Answer {
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_question_answer", nullable = false, insertable = false, updatable = false)
     private Question_Answer question_answer;
-
+	*/
+    
     public Submitted_Answer () { }
     public Submitted_Answer (long id_submitted_survey, long id_question_answer) {
         this.id_submitted_survey = id_submitted_survey;
@@ -44,7 +46,19 @@ class SubmittedAnswerPK implements Serializable {
 
     public SubmittedAnswerPK () { }
     public SubmittedAnswerPK(long id_submitted_survey, long id_question_answer) {
-        this.id_submitted_survey = id_submitted_survey;
-        this.id_question_answer = id_question_answer;
+        this.setId_submitted_survey(id_submitted_survey);
+        this.setId_question_answer(id_question_answer);
     }
+	public long getId_submitted_survey() {
+		return id_submitted_survey;
+	}
+	public void setId_submitted_survey(long id_submitted_survey) {
+		this.id_submitted_survey = id_submitted_survey;
+	}
+	public long getId_question_answer() {
+		return id_question_answer;
+	}
+	public void setId_question_answer(long id_question_answer) {
+		this.id_question_answer = id_question_answer;
+	}
 }
